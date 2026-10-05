@@ -1,0 +1,12 @@
+{
+    "dotnet.defaultSolution": "AuthApi.slnx",
+    "csharp-dev-tools.entityFramework.migrationPreferences": {
+        "AuthApi.slnx": {
+            "startupProject": "AuthApi.Infrastructure\\AuthApi.Infrastructure.csproj",
+            "migrationsProject": "AuthApi.Infrastructure\\AuthApi.Infrastructure.csproj",
+            "dbContextClass": "",
+            "migrationsFolder": "Migrations",
+            "targetMigration": ""
+        }
+    }
+}
