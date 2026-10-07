@@ -35,12 +35,16 @@ public bool VerifyPassword(string password, string hash)
         var audience = jwtSettings["Audience"] ?? "AuthApiUsers";
         var expirationMinutes = int.Parse(jwtSettings["ExpirationMinutes"] ?? "60");
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        {
+            KeyId = "AuthApiKeyId"
+        };
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
             new Claim(ClaimTypes.Email, email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
