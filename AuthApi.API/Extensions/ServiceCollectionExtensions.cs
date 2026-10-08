@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
         
         // Infrastructure - Database
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
         
         // Infrastructure - Repositories - Auth
         services.AddScoped<IUnitOfWork, UnitOfWork>();

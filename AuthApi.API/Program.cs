@@ -4,6 +4,10 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure SQLite database path for Render
+var dbPath = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "AuthApiDb.db";
+builder.Configuration["ConnectionStrings:DefaultConnection"] = $"Data Source={dbPath}";
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: auth-api
+    env: docker
+    plan: free
+    envVars:
+      - key: ASPNETCORE_URLS
+        value: http://0.0.0.0:80
+      - key: DATABASE_PATH
+        value: /app/AuthApiDb.db
