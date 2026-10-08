@@ -52,11 +52,12 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Automatically apply database migrations
+// Automatically apply database migrations and seed data
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AuthApi.Infrastructure.Data.AppDbContext>();
     dbContext.Database.Migrate();
+    await dbContext.SeedDataAsync();
 }
 
 // Configure the HTTP request pipeline
