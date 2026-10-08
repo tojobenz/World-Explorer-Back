@@ -10,8 +10,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         
-        optionsBuilder.UseSqlServer(
-            "Server=(localdb)\\mssqllocaldb;Database=AuthApiDb;Trusted_Connection=true;MultipleActiveResultSets=true");
+        optionsBuilder.UseSqlite("Data Source=AuthApiDb.db");
         
         return new AppDbContext(optionsBuilder.Options);
     }
