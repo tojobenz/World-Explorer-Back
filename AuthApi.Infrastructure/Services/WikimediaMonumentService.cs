@@ -124,6 +124,17 @@ public class WikimediaMonumentService : IWikimediaMonumentService
             
             if (monument == null)
             {
+                var details = await _wikimediaService.GetDetailsAsync(pageId);
+                if (details.Success && details.Data != null)
+                {
+                    monument = MapToEntity(details.Data);
+                    monument.UserId = userId;
+                    monument.IsUserFavorite = true;
+                    await _monumentRepository.AddAsync(monument);
+                    await _unitOfWork.SaveChangesAsync();
+                    return ApiResponse<bool>.SuccessResponse(true, "Favorite toggled successfully");
+                }
+
                 return ApiResponse<bool>.ErrorResponse("Monument not found");
             }
 

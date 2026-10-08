@@ -117,6 +117,17 @@ public class WikimediaPersonService : IWikimediaPersonService
             
             if (person == null)
             {
+                var details = await _wikimediaService.GetDetailsAsync(pageId);
+                if (details.Success && details.Data != null)
+                {
+                    person = MapToEntity(details.Data);
+                    person.UserId = userId;
+                    person.IsUserFavorite = true;
+                    await _personRepository.AddAsync(person);
+                    await _unitOfWork.SaveChangesAsync();
+                    return ApiResponse<bool>.SuccessResponse(true, "Favorite toggled successfully");
+                }
+
                 return ApiResponse<bool>.ErrorResponse("Person not found");
             }
 

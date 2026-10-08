@@ -124,6 +124,17 @@ public class WikimediaFactService : IWikimediaFactService
             
             if (fact == null)
             {
+                var details = await _wikimediaService.GetDetailsAsync(pageId);
+                if (details.Success && details.Data != null)
+                {
+                    fact = MapToEntity(details.Data);
+                    fact.UserId = userId;
+                    fact.IsUserFavorite = true;
+                    await _factRepository.AddAsync(fact);
+                    await _unitOfWork.SaveChangesAsync();
+                    return ApiResponse<bool>.SuccessResponse(true, "Favorite toggled successfully");
+                }
+
                 return ApiResponse<bool>.ErrorResponse("Fact not found");
             }
 

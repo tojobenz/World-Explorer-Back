@@ -127,6 +127,17 @@ public class WikimediaPlaceService : IWikimediaPlaceService
             
             if (place == null)
             {
+                var details = await _wikimediaService.GetDetailsAsync(pageId);
+                if (details.Success && details.Data != null)
+                {
+                    place = MapToEntity(details.Data);
+                    place.UserId = userId;
+                    place.IsUserFavorite = true;
+                    await _placeRepository.AddAsync(place);
+                    await _unitOfWork.SaveChangesAsync();
+                    return ApiResponse<bool>.SuccessResponse(true, "Favorite toggled successfully");
+                }
+
                 return ApiResponse<bool>.ErrorResponse("Place not found");
             }
 
